@@ -1,0 +1,50 @@
+<form method="get" action="{{ path('author_getAuthors') }}">
+	<input type="text" name="author" placeholder="author name" value="{{name}}">
+	<button type="submit">Rechercher</button>
+</form>
+
+<h2>
+	le tableau comporte
+	{{authors| length}}
+	auteurs
+</h2>
+<a href="{{path("author_insertAuthor")}}">Add new</a>
+
+{% if authors is empty or authors is not defined %}
+	<h2>
+		vérifer votre tableau
+	</h2>
+
+{% else %}
+	<table border="1">
+		<tr>
+			<th>Id</th>
+			<th>UserNAme</th>
+			<th>email</th>
+			<th>nb_books</th>
+			<th>actions</th>
+		</tr>
+		{% set l=0 %}
+		{% for elt in authors %}
+			<tr>
+				<td>{{elt.id}}</td>
+				<td>{{elt.username | upper}}</td>
+				<td>{{elt.email}}</td>
+				<td>{{elt.nbBook}}</td>
+				<td>
+					<a href="{{path("author_authorDetails",{'id': elt.id})}}">Details</a>
+					<a href="{{path("author_updateAuthor",{'id': elt.id})}}">Update</a>
+					<a href="{{path("author_delete",{'id': elt.id})}}" onclick="return confirm('voullez vous vraiment supprimer cet auteur?')">Delete</a>
+
+				</td>
+				{% set l= l + elt.nbBook %}
+			</tr>
+
+		{% endfor %}
+		{# <h2>
+																																					le nombre totale des books est
+																																					{{l}}
+																																				</h2> #}
+	</table>
+
+{% endif %}

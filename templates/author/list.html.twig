@@ -1,5 +1,5 @@
 <form method="get" action="{{ path('author_getAuthors') }}">
-	<input type="text" name="author" placeholder="author name" value="{{name}}">
+	<input type="text" name="author" placeholder="author name" value="{{ name|default('') }}">
 	<button type="submit">Rechercher</button>
 </form>
 
@@ -30,14 +30,14 @@
 				<td>{{elt.id}}</td>
 				<td>{{elt.username | upper}}</td>
 				<td>{{elt.email}}</td>
-				<td>{{elt.nbBook}}</td>
+				<td>{{elt.nb_books}}</td>
 				<td>
 					<a href="{{path("author_authorDetails",{'id': elt.id})}}">Details</a>
 					<a href="{{path("author_updateAuthor",{'id': elt.id})}}">Update</a>
 					<a href="{{path("author_delete",{'id': elt.id})}}" onclick="return confirm('voullez vous vraiment supprimer cet auteur?')">Delete</a>
 
 				</td>
-				{% set l= l + elt.nbBook %}
+				{% set l= l + elt.nb_books %}
 			</tr>
 
 		{% endfor %}

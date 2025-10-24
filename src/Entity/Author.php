@@ -18,16 +18,16 @@ class Author
     #[ORM\Column(length: 50)]
     private ?string $username = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 150)]
     private ?string $email = null;
 
     #[ORM\Column(nullable: true)]
-    private ?int $nbBook = null;
+    private ?int $nb_books = null;
 
     /**
      * @var Collection<int, Book>
      */
-    #[ORM\OneToMany(targetEntity: Book::class, mappedBy: 'author', cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(targetEntity: Book::class, mappedBy: 'author')]
     private Collection $books;
 
     public function __construct()
@@ -65,14 +65,14 @@ class Author
         return $this;
     }
 
-    public function getNbBook(): ?int
+    public function getNbBooks(): ?int
     {
-        return $this->nbBook;
+        return $this->nb_books;
     }
 
-    public function setNbBook(?int $nbBook): static
+    public function setNbBooks(?int $nb_books): static
     {
-        $this->nbBook = $nbBook;
+        $this->nb_books = $nb_books;
 
         return $this;
     }
@@ -106,4 +106,5 @@ class Author
 
         return $this;
     }
+
 }

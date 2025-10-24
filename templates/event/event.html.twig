@@ -1,0 +1,14 @@
+{% set eventEnable=0 %}
+{% set eventdisable=0 %}
+{% for elt in event %}
+	{% if elt.enable==1 %}
+
+		{% set eventEnable=eventEnable+1 %}
+	{% elseif elt.enable!=1 %}
+
+		{% set eventdisable=eventdisable+1 %}
+	{% endif %}
+{% endfor %}
+
+<h3>Nombre d'evenement enable={{eventEnable}}</h3>
+<h3>Nombre d'evenement disable={{eventdisable}}</h3>

@@ -40,27 +40,13 @@ class AuthorRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-
-
-    // select By name DQL
-
-    // utilise the EntityManager
-    // utilise la fonction createQuery
-    // crée une requette qui ressemble au SQL
-       public function findByName($value): array
-       {
-           $query=$this->getEntityManager()
-           ->createQuery('Select a From App\Entity\Author a WHERE a.username=:name')
-           ->setParameter('name',$value);
-           return $query->getResult();
-       }
-
-        public function findByMinMax($min, $max): array
-       {
-           $query=$this->getEntityManager()
-           ->createQuery('Select a From App\Entity\Author a WHERE a.nb_book BETWEEN :min AND :max')
-           ->setParameter('min',$min)
-           ->setParameter('max',$max);
-           return $query->getResult();
-       }
+   
+    public function findByEmail(): array 
+    {
+        $query = $this->createQueryBuilder('a')
+            ->orderBy('a.email', 'ASC')
+            ->getQuery();
+            
+        return $query->getResult();
+    }
 }

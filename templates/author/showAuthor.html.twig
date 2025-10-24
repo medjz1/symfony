@@ -1,2 +1,5 @@
-{{auth.id ~ auth.username ~ auth.email}}
-<a href="{{path("author_getAuthors")}}">back to lis</a>
+<h1>Details de l'auteur</h1>
+<h3>Nom: {{auth.username}}</h3>
+<h3>Email: {{auth.email}}</h3>
+<h3>Nombre de livre: {{auth.nbBooks}} </h3>
+{# <img src="{{auth.picture}}" width="150"> #}

@@ -1,0 +1,33 @@
+
+{% if list is not empty %}
+	<table border="1">
+		<tr>
+			<th>Référence</th>
+			<th>Titre</th>
+			<th>Date de publication</th>
+            <th>Published</th>
+            <th>Categorie</th>
+			<th>Auteur</th>
+            <th colspan='2'>Actions</th>
+
+		</tr>
+		{% for book in list %}
+			<tr>
+				<td>{{ book.ref }}</td>
+				<td>{{ book.title }}</td>
+				<td>{{ book.publishDate|date('Y-m-d') }}</td>
+                <td>{{ book.published }}</td>
+                <td>{{ book.category }}</td>
+				<td>{{ book.author.username }}</td>
+                <td>
+					<a href="{{ path('book_updateBook', {'id': book.id})}}">Edit</a>
+				</td>
+				<td>
+					<a href="{{ path('book_detailsBook', {'id': book.id})}}">Details</a>
+				</td>
+			</tr>
+		{% endfor %}
+	</table>
+{% else %}
+	<p>Aucun livre trouvé.</p>
+{% endif %}

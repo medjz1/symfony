@@ -1,50 +1,45 @@
-<form method="get" action="{{ path('author_getAuthors') }}">
-	<input type="text" name="author" placeholder="author name" value="{{ name|default('') }}">
-	<button type="submit">Rechercher</button>
-</form>
-
-<h2>
-	le tableau comporte
-	{{authors| length}}
+<h1>Le tableau comporte
+	{{authors | length}}
 	auteurs
-</h2>
-<a href="{{path("author_insertAuthor")}}">Add new</a>
+</h1>
 
 {% if authors is empty or authors is not defined %}
-	<h2>
-		vérifer votre tableau
-	</h2>
-
+	<h2>Verifier votre tableau</h2>
 {% else %}
+	<a href="{{ path('author_insertAuthor')}}">Ajouter un nouveau auteur</a>
 	<table border="1">
 		<tr>
-			<th>Id</th>
-			<th>UserNAme</th>
-			<th>email</th>
-			<th>nb_books</th>
-			<th>actions</th>
+			<th>Identifiant</th>
+			<th>Auteur</th>
+			<th>Email de l'auteur</th>
+			{# <th>Photo</th> #}
+			<th>Nombre de livre</th>
+			<th colspan="3">Actions</th>
+			
 		</tr>
 		{% set l=0 %}
-		{% for elt in authors %}
+		{% for author in authors %}
 			<tr>
-				<td>{{elt.id}}</td>
-				<td>{{elt.username | upper}}</td>
-				<td>{{elt.email}}</td>
-				<td>{{elt.nb_books}}</td>
+				<td>{{author.id }}</td>
+				<td>{{author.username | upper}}</td>
+				<td>{{author.email}}</td>
+				{# <td><img src="{{author.picture}}" width="150"></td> #}
+				<td>{{author.nbBooks}}
+					Livres</td>
+				{% set l=l+author.nbBooks %}
 				<td>
-					<a href="{{path("author_authorDetails",{'id': elt.id})}}">Details</a>
-					<a href="{{path("author_updateAuthor",{'id': elt.id})}}">Update</a>
-					<a href="{{path("author_delete",{'id': elt.id})}}" onclick="return confirm('voullez vous vraiment supprimer cet auteur?')">Delete</a>
-
+					<a href="{{path('author_getAuthor', {'id': author.id })}}">Details</a>
 				</td>
-				{% set l= l + elt.nb_books %}
+				<td>
+					<a href="{{path('author_updateAuthor', {'id': author.id })}}">Edit</a>
+				</td>
+				<td>
+					<a href="{{path('author_deleteAuthor', {'id': author.id })}}">Delete</a>
+				</td>
 			</tr>
-
 		{% endfor %}
-		{# <h2>
-																																					le nombre totale des books est
-																																					{{l}}
-																																				</h2> #}
 	</table>
-
+	<h1>Le nombre de livres de tous les auteurs=
+		{{l}}
+	</h1>
 {% endif %}

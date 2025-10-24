@@ -1,0 +1,25 @@
+<h2>Résultat de la recherche</h2>
+
+{% if ref %}
+<p>Recherche pour la référence : <strong>{{ ref }}</strong></p>
+{% endif %}
+
+{% if list is not empty %}
+<table border="1">
+    <tr>
+        <th>Référence</th>
+        <th>Titre</th>
+        <th>Auteur</th>
+    </tr>
+    {% for book in list %}
+    <tr>
+        <td>{{ book.ref }}</td>
+        <td>{{ book.title }}</td>
+        <td>{{ book.author.username }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>Aucun livre trouvé pour cette référence.</p>
+{% endif %}
+<a href="{{ path('book_getBooks')}}">retour à la liste des livres</a>

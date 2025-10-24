@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Book;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use PhpParser\Node\Stmt\Return_;
+use Symfony\Config\Framework\HttpClient\DefaultOptions\RetryFailedConfig;
 
 /**
  * @extends ServiceEntityRepository<Book>
@@ -40,4 +42,47 @@ class BookRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function searchBookByRef($ref): array
+    {
+        return $this->createQueryBuilder('b')
+            ->where('b.ref=:ref')
+            ->setParameter('ref', $ref)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function booksListByAuthors(): array
+    {
+        $query = $this->createQueryBuilder('b')
+            ->join('b.author', 'a')
+            ->addSelect('a')
+            ->orderBy('a.username', 'ASC')
+            ->getQuery();
+        return $query->getResult();
+    }
+
+    public function booksBefore2023(): array
+    {
+        $query = $this->createQueryBuilder('b')
+            ->join('b.author', 'a')
+            ->where('b.publishDate< :date')
+            ->andWhere('a.nb_books > :nb')
+            ->setParameter('date', new \DateTime('2023-01-01'))
+            ->setParameter('nb', 10)
+            ->getQuery();
+        return $query->getResult();
+    }
+
+    public function updateCategoryScience(): int
+    {
+        $query= $this->createQueryBuilder('b')
+        ->update()
+        ->set('b.category' ,':newCategory')
+        ->where('b.category =:oldCategory')
+        ->setParameter('newCategory', 'Romance')
+        ->setParameter('oldCategory', 'Science-Fiction')
+        ->getQuery();
+        return $query->execute();
+    }
 }

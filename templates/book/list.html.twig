@@ -1,0 +1,54 @@
+<h2>Liste des livres publiés</h2>
+<form method="get" action="{{ path('book_getBookByRef')}}">
+	<input type="text" name="ref" value="">
+	<input type="submit" value="Search">
+</form>
+
+{% if books is empty or books is not defined %}
+	<h3>Aucun livre publié trouvé.</h3>
+{% else %}
+
+	<table border="1">
+		<tr>
+			<th>Reference</th>
+			<th>Title</th>
+			<th>Publish Date</th>
+			<th>Published</th>
+			<th>Category</th>
+			<th>Author</th>
+			<th colspan="3">Actions</th>
+		</tr>
+		{% set lp=0 %}
+		{% set lnp=0 %}
+		{% for book in books %}
+			<tr>
+				<td>{{ book.ref }}</td>
+				<td>{{ book.title }}</td>
+				<td>{{ book.publishDate ? book.publishDate|date('Y-m-d') : 'N/A' }}</td>
+				<td>1</td>
+				<td>{{ book.category }}
+				</td>
+				<td>{{ book.author.username }}</td>
+				<td>
+					<a href="{{ path('book_updateBook', {'id': book.id})}}">Edit</a>
+				</td>
+				<td>
+					<a href="{{ path('book_deleteBook', {'id': book.id})}}">Delete</a>
+				</td>
+				<td>
+					<a href="{{ path('book_detailsBook', {'id': book.id})}}">Details</a>
+				</td>
+			</tr>
+			{% if book.published %}
+				{% set lp = lp + 1 %}
+			{% else %}
+				{% set lnp = lnp + 1 %}
+			{% endif %}
+		{% endfor %}
+	</table>
+	<h3>Le nombre de livre publiés=
+		{{lp}}</h3>
+	<h3>Le nombre de livre publiés=
+		{{lnp}}</h3>
+	<a href="{{ path('book_insertBook')}}">Add new Book</a>
+{% endif %}

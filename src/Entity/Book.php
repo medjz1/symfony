@@ -14,10 +14,10 @@ class Book
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 50, nullable: true)]
     private ?string $title = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $published = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
@@ -25,6 +25,12 @@ class Book
 
     #[ORM\ManyToOne(inversedBy: 'books')]
     private ?Author $author = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $ref = null;
+
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $category = null;
 
     public function getId(): ?int
     {
@@ -36,7 +42,7 @@ class Book
         return $this->title;
     }
 
-    public function setTitle(string $title): static
+    public function setTitle(?string $title): static
     {
         $this->title = $title;
 
@@ -48,7 +54,7 @@ class Book
         return $this->published;
     }
 
-    public function setPublished(bool $published): static
+    public function setPublished(?bool $published): static
     {
         $this->published = $published;
 
@@ -67,14 +73,38 @@ class Book
         return $this;
     }
 
-    public function getAuthor(): ?Author
+    public function getAuthor(): ?author
     {
         return $this->author;
     }
 
-    public function setAuthor(?Author $author): static
+    public function setAuthor(?author $author): static
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getRef(): ?int
+    {
+        return $this->ref;
+    }
+
+    public function setRef(?int $ref): static
+    {
+        $this->ref = $ref;
+
+        return $this;
+    }
+
+    public function getCategory(): ?string
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?string $category): static
+    {
+        $this->category = $category;
 
         return $this;
     }
